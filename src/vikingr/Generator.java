@@ -146,7 +146,7 @@ public class Generator {
             bw.write("\n");
         }
         for (Match match : matchs) {
-            System.out.println(match.teamA1 + "; " + match.teamA2 + "; " + match.teamB1 + "; " + match.teamB2);
+            System.out.println((match.teamA1 + 1) + ";" + (match.teamA2 + 1) + ";" + (match.teamB1 + 1) + ";" + (match.teamB2 + 1));
             bw.write((match.teamA1 + 1) + ";" + (match.teamA2 + 1) + ";" + (match.teamB1 + 1) + ";" + (match.teamB2 + 1) + "\n");
         }
     }
