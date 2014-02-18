@@ -49,7 +49,7 @@ public class Generator {
         }
         FileWriter fw = new FileWriter(file.getAbsoluteFile());
         BufferedWriter bw = new BufferedWriter(fw);
-        
+
         Random rnd = new Random();
         boolean[] played = new boolean[numberOfPlayer];
         Set<Integer> playersToChoose = new HashSet<Integer>(numberOfPlayer);
@@ -142,12 +142,12 @@ public class Generator {
 
     void writeRoundMatchs(int round, Match[] matchs, BufferedWriter bw) throws IOException {
         System.out.println("\nRound " + round);
-        if(round != 0){
+        if (round != 0) {
             bw.write("\n");
         }
         for (Match match : matchs) {
             System.out.println(match.teamA1 + "; " + match.teamA2 + "; " + match.teamB1 + "; " + match.teamB2);
-            bw.write(match.teamA1 + ";" + match.teamA2 + ";" + match.teamB1 + ";" + match.teamB2+"\n");
+            bw.write((match.teamA1 + 1) + ";" + (match.teamA2 + 1) + ";" + (match.teamB1 + 1) + ";" + (match.teamB2 + 1) + "\n");
         }
     }
 
