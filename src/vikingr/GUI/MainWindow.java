@@ -15,9 +15,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import vikingr.Generator;
+import vikingr.StatusObserve;
 
 /**
  *
@@ -30,12 +32,16 @@ public class MainWindow extends JFrame {
     private JSpinner players;
     private JFileChooser fileSaver;
     private JButton saveFile;
+    private JProgressBar bar;
     private boolean isSetFile;
+    private String path;
     
     public MainWindow() throws HeadlessException {
         super("Vikingr");
         setSize(300, 200);
-        isSetFile = false;
+        path = "matchs.cvs";
+        isSetFile = true;
+        
         initGUI();
     }
     
@@ -61,6 +67,7 @@ public class MainWindow extends JFrame {
                 int ret = fileSaver.showSaveDialog(MainWindow.this);
                 if (ret == JFileChooser.APPROVE_OPTION) {
                     System.out.println(fileSaver.getSelectedFile().getPath());
+                    path = fileSaver.getSelectedFile().getPath();
                     isSetFile = true;
                 } else {
                     isSetFile = false;
@@ -69,7 +76,8 @@ public class MainWindow extends JFrame {
         });
         add(saveFile);
         
-        add(new JLabel(""));
+        bar = new JProgressBar(0, 1000);
+        add(bar);
         btnGenerate = new JButton("Generuj");
         btnGenerate.addActionListener(new ActionListener() {
             
@@ -89,10 +97,19 @@ public class MainWindow extends JFrame {
     
     private void generateAndSave() {
         Generator gen = new Generator((int) players.getValue());
+        bar.setValue(0);
+        bar.setMaximum((int) rounds.getValue());
         try{
-        boolean ok = gen.generateAndWrite(fileSaver.getSelectedFile().getPath(), (int) rounds.getValue());
+        boolean ok = gen.generateAndWrite(path, (int) rounds.getValue(), new StatusObserve() {
+
+            @Override
+            public void updateStatus(double i) {
+                System.out.println(i);
+                bar.setValue((int) i);
+            }
+        });
         if(ok){
-            JOptionPane.showMessageDialog(MainWindow.this, "Vse bylo uspesne vygenerovano",
+            JOptionPane.showMessageDialog(MainWindow.this, "Vse bylo uspesne vygenerovano\nZdrojove kody na: https://github.com/Saljack/vikingr",
                             "Uspesne vygenerovano", JOptionPane.INFORMATION_MESSAGE);
         }else{
             JOptionPane.showMessageDialog(MainWindow.this, "Nastala nejaka chyba nejspis je prilis mnoho kol na maly pocet hracu.",
