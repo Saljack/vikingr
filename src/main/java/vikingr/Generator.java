@@ -28,7 +28,7 @@ public class Generator {
     public static int numberOfPlayer;
     public static final int PLAYERS_IN_MATCH = 4;
     public static int maxAttempts = 1000;
-    public static int maxGlobalAttemps = 10000;
+    public static int maxGlobalAttemps = 100;
 
     private Player[] players;
     private int numberOfAttempts;
